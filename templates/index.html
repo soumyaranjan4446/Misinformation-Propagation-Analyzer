@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misinformation Analyzer</title>
+    <style>
+        /* --- Global Styles --- */
+        body {
+            /* Using a cleaner, more modern font stack */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            /* Flexbox to center the content card */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* --- Main Content Card --- */
+        .container {
+            background: #ffffff;
+            border-radius: 8px;
+            /* A subtle shadow adds depth */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 30px 40px;
+            max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* --- Typography --- */
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* --- Form Styles --- */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            /* Smooth transition for focus */
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Modern focus ring */
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            /* Smooth transition for hover */
+            transition: background-color 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background: #0056b3;
+        }
+
+        /* --- Error Box --- */
+        .error-box {
+            /* A much cleaner error style */
+            background-color: #fbebee;
+            border: 1px solid #f5c6cb;
+            color: #c7254e;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Misinformation Propagation Analyzer 🔬</h1>
+        <p>Enter a full Reddit post URL to analyze its conversation network, identify key spreaders, and track sentiment.</p>
+
+        {% if error %}
+        <div class="error-box">
+            <strong>Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="/analyze" method="POST">
+            <label for="url">Reddit Post URL:</label>
+            <input type="text" id="url" name="url" placeholder="https://www.reddit.com/r/..." required>
+            
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+
+</body>
+</html>

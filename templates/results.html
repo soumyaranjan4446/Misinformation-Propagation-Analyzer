@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <style>
+        /* --- Global Styles --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* --- Main Content Card --- */
+        .container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 30px 40px;
+            max-width: 800px;
+            width: 100%;
+            margin: 20px auto; /* Center the card */
+            box-sizing: border-box;
+        }
+
+        /* --- Typography --- */
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        /* Italic style for the post title */
+        h1 em {
+            font-style: italic;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 30px; /* Add space above section headers */
+            margin-bottom: 8px;
+            border-bottom: 2px solid #eee; /* Subtle separator */
+            padding-bottom: 5px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* --- "Back" Link Style --- */
+        .back-link {
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #007bff;
+            text-decoration: none;
+            margin-bottom: 25px;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        
+        /* --- Table Styles --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            /* Use borders only on the bottom for a cleaner look */
+            border-bottom: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Remove bottom border from the last row for a clean finish */
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Zebra-striping for readability */
+        tr:nth-child(even) {
+            background-color: #fdfdfd;
+        }
+        
+        /* --- Specific Column Styling --- */
+        /* Make the score columns right-aligned */
+        td:nth-child(2) {
+            text-align: right;
+            font-family: monospace; /* Good for numbers */
+            font-size: 15px;
+            color: #0056b3;
+        }
+        
+        th:nth-child(2) {
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="/" class="back-link">&larr; Analyze Another Post</a>
+        
+        <h1>Analysis for: <em>{{ results.post_title }}</em></h1>
+        <p>Analyzed {{ results.total_comments_analyzed }} comments from {{ results.total_users_in_network }} users.</p>
+
+        <h2>Top 5 "Spreaders" (In-Degree)</h2>
+        <p>Users whose comments generate the most replies and engagement.</p>
+        <table>
+            <tr>
+                <th>User</th>
+                <th>Spreader Score</th>
+            </tr>
+            {% for user, score in results.top_spreaders %}
+            <tr>
+                <td>{{ user }}</td>
+                <td>{{ "%.4f"|format(score) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Top 5 "Bridges" (Betweenness)</h2>
+        <p>Users who connect different, otherwise separate, conversation groups.</p>
+        <table>
+            <tr>
+                <th>User</th>
+                <th>Bridge Score</th>
+            </tr>
+            {% for user, score in results.top_bridges %}
+            <tr>
+                <td>{{ user }}</td>
+                <td>{{ "%.4f"|format(score) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Sentiment vs. Average Spreader Score</h2>
+        <p>This shows which type of sentiment is associated with the highest average "spreader" score.</p>
+        <table>
+            <tr>
+                <th>Sentiment</th>
+                <th>Avg. Spreader Score</th>
+            </tr>
+            {% for sentiment, score in results.sentiment_vs_centrality.items() %}
+            <tr>
+                <td>{{ sentiment }}</td>
+                <td>{{ "%.4f"|format(score) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+jinja2
+python-multipart
+praw
+pandas
+torch
+transformers
+sentencepiece
+networkx
